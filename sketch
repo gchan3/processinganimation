@@ -1,26 +1,17 @@
-PVector[] clouds;
-
 void setup() {
-  size(558, 350);
-  
-  clouds = new PVector[5];
-  for (int i = 0; i < clouds.length; i ++) {
-    float x = random(0, width);
-    float y = random(0, 200);
-    clouds[i] = new PVector(x, y);
-  }
+  size(1032, 774);
 }
 
 void draw() {
-  background(#44D4FF);
+  background(#232CA9);
   
   //ground
   noStroke();
-  fill(#638FC3);
-  rect(0, 350, 558, -130);
+  fill(#DADBE1);
+  ellipse(-750, 1350, 4000, 2000);
   
-  //rocks
-  fill(#8A8A8A);
-  ellipse(0,
-  
+  pushMatrix();
+    fill(#A2A2AC);
+    rect(800, 500, 100, 100, 30);
+  popMatrix();
 }
