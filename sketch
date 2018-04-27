@@ -1,17 +1,71 @@
+int Y_AXIS = 1;
+int X_AXIS = 2;
+color skyLightRed, skyBlue, skyWhite, skyLightBlue;
+PVector[] snow;
+PVector[] snowSpeed;
+
 void setup() {
-  size(1032, 774);
+  size(660, 357);
+  
+  snow = new PVector[1500];
+  snowSpeed = new PVector[1500];
+  for (int i = 0; i < snow.length; i++) {
+    float x = random(0, width);
+    float y = random(0, height);
+    snow[i] = new PVector(x, y);
+    snowSpeed[i] = new PVector(0, 0);
+  }
+  
+  //colours
+  skyLightRed = color(#EECFDC);
+  skyBlue = color(#B3E3FE);
+  skyWhite = color(#F4EED9);
+  skyLightBlue = color(#D3F3EF);
 }
 
 void draw() {
-  background(#232CA9);
+  //sky
+  setGradient(0, 0, width, 100, skyLightBlue, skyWhite, Y_AXIS);
+  setGradient(0, 100, width, 80, skyWhite, skyLightRed, Y_AXIS);
+  setGradient(0, 180, width, 55, skyLightRed, skyBlue, Y_AXIS);
   
-  //ground
+  //trees
   noStroke();
-  fill(#DADBE1);
-  ellipse(-750, 1350, 4000, 2000);
+  fill(#334633);
+  triangle(230, 235, 270, 100, 310, 235);
+  triangle(230 - 75, 235, 270 - 75, 95, 310 - 75, 235);
+  triangle(230 - 37.5, 235, 270 - 37.5, 80, 310 - 37.5, 235);
+  ellipse(100, 230, 160, 200);
+  triangle(560, 235, 600, 40, 640, 235);
+  rect(300, 205, 180, 100);
+  //ground
+  fill(#B1DEFA);
+  rect(0, 235, width, 122);
   
-  pushMatrix();
-    fill(#A2A2AC);
-    rect(800, 500, 100, 100, 30);
-  popMatrix();
+  for (int i = 0; i < snow.length; i++) {
+    snowSpeed[i].add(0, 0.001);
+    snow[i].add(snowSpeed[i]);
+
+    if (snow[i].y > height) {
+      snow[i].y = - 75;
+      snow[i].y = height;
+    }
+ 
+    noStroke();
+    fill(#FFFFFF);
+    ellipse(snow[i].x, snow[i].y, 2, 2);
+  }
+}
+
+void setGradient(int x, int y, float w, float h, color c1, color c2, int axis) {
+  noFill();
+
+  if (axis == Y_AXIS) {  // Top to bottom gradient
+    for (int i = y; i <= y+h; i++) {
+      float inter = map(i, y, y+h, 0, 1);
+      color c = lerpColor(c1, c2, inter);
+      stroke(c);
+      line(x, i, x+w, i);
+    }
+  }  
 }
